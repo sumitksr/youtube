@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken")
 const bcrypt = require("bcryptjs")
 require("dotenv").config()
 
+
 const userSchema = new Schema(
     {
         username: {
@@ -63,9 +64,34 @@ userSchema.pre("save", async function(next) {
     next()
 })
 
+
 //Password comparison method
 userSchema.methods.comparePassword = async function(candidatePassword) {
     return await bcrypt.compare(candidatePassword, this.password)
+}
+
+
+//Generate JWT token method
+userSchema.methods.generateJWT = function() {
+    const payload = {
+        id: this._id,
+        username: this.username,
+        email: this.email,
+        fullName: this.fullName
+    }
+    const token = jwt.sign(payload, process.env.JWT_SECRET, {expiresIn: process.env.JWT_EXPIRES_IN})
+    return token
+}
+
+
+//Generate Refresh token method
+userSchema.methods.generateRefreshToken = function() {
+    const payload = {
+        id: this._id,
+        username: this.username,
+    }
+    const refreshToken = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, {expiresIn: process.env.REFRESH_TOKEN_EXPIRES_IN})
+    return refreshToken
 }
 
 
