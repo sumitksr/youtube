@@ -34,3 +34,5 @@ dbconnect().then(() => {
 
 
 //ROUTES
+import userRoutes from './routes/user.js';
+app.use('/api/v1/users', userRoutes);
