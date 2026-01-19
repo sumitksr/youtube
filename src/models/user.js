@@ -1,8 +1,10 @@
-const mongoose = require("mongoose")
-const {Schema} = mongoose
-const jwt = require("jsonwebtoken")
-const bcrypt = require("bcryptjs")
-require("dotenv").config()
+import mongoose from "mongoose";
+const {Schema} = mongoose;
+import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 
 const userSchema = new Schema(

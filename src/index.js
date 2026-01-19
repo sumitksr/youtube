@@ -1,11 +1,15 @@
-const mongoose = require('mongoose');
-const express = require('express');
+import mongoose from 'mongoose';
+import express from 'express';
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
+import dotenv from 'dotenv';
+import { dbconnect } from './config/database.js';
+import userRoutes from './routes/user.js';
+import './config/cloudinary.js'; // Initialize cloudinary config
+
+dotenv.config();
+
 const PORT = process.env.PORT || 3000;
-const { DB_NAME } = "../constants.js";
-const cors = require('cors');
-const cookieParser = require('cookie-parser');
-require('dotenv').config();
-const { dbconnect } = require('./config/database.js');
 const app = express();
 
 
@@ -34,5 +38,4 @@ dbconnect().then(() => {
 
 
 //ROUTES
-import userRoutes from './routes/user.js';
 app.use('/api/v1/users', userRoutes);
