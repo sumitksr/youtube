@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 import {ApiError} from '../utils/ApiError.js';
 import {ApiResponse} from '../utils/ApiResponse.js';
-import  uploadOnCloudinary from '../config/cloudinary.js';
+import  uploadOnCloudinary, { deleteFromCloudinary } from '../config/cloudinary.js';
 import jwt from 'jsonwebtoken';
 
 const generateAccessAndRefereshTokens = async(userId) =>{
@@ -240,7 +240,10 @@ export const updateUserAvatar = asyncHandler(async(req, res) => {
         throw new ApiError(400, "Avatar file is missing")
     }
 
-    //TODO: delete old image - assignment
+    // Delete old avatar image from Cloudinary
+    if (req.user?.avatar) {
+        await deleteFromCloudinary(req.user.avatar);
+    }
 
     const avatar = await uploadOnCloudinary(avatarLocalPath)
 
@@ -273,8 +276,10 @@ export const updateUserCoverImage = asyncHandler(async(req, res) => {
         throw new ApiError(400, "Cover image file is missing")
     }
 
-    //TODO: delete old image - assignment
-
+    // Delete old cover image from Cloudinary
+    if (req.user?.coverImage) {
+        await deleteFromCloudinary(req.user.coverImage);
+    }
 
     const coverImage = await uploadOnCloudinary(coverImageLocalPath)
 

@@ -35,5 +35,23 @@ const uploadOnCloudinary = async (localFilePath) => {
 
 
 
+export const deleteFromCloudinary = async (publicUrl) => {
+    try {
+        if (!publicUrl) return null;
+        
+        // Extract public_id from the Cloudinary URL
+        const urlParts = publicUrl.split('/');
+        const publicIdWithExtension = urlParts.slice(-2).join('/'); // Gets "Youtube/filename.ext"
+        const publicId = publicIdWithExtension.split('.')[0]; // Removes the extension
+        
+        const response = await cloudinary.uploader.destroy(publicId);
+        console.log("File deleted from Cloudinary:", response);
+        return response;
+    } catch (error) {
+        console.error("Cloudinary deletion error:", error);
+        return null;
+    }
+}
+
 export default uploadOnCloudinary;
 
