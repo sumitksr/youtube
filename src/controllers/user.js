@@ -280,7 +280,7 @@ export const updateUserCoverImage = asyncHandler(async (req, res) => {
   const coverImage = await uploadOnCloudinary(coverImageLocalPath);
 
   if (!coverImage.url) {
-    throw new ApiError(400, "Error while uploading on avatar");
+    throw new ApiError(400, "Error while uploading cover image");
   }
 
   // Store old cover image URL before updating
