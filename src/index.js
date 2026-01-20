@@ -27,6 +27,10 @@ app.use(cookieParser());
 app.use(express.static('public'));
 
 
+//ROUTES
+app.use('/api/v1/users', userRoutes);
+
+
 //DB CONNECTION
 dbconnect().then(() => {
     app.listen(PORT, () => {
@@ -35,7 +39,3 @@ dbconnect().then(() => {
 }).catch((err) => {
     console.error('Failed to connect to the database:', err);
 });
-
-
-//ROUTES
-app.use('/api/v1/users', userRoutes);
